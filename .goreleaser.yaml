@@ -1,0 +1,31 @@
+project_name: kubectl-ns-inspect
+
+# 빌드 설정
+builds:
+  - id: kubectl-ns-inspect
+    main: ./main.go
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags: 
+      - "-s -w"  # 파일 크기를 줄이기 위한 플래그
+    binary: "kubectl-ns-inspect"
+
+# 아티팩트 설정
+archives:
+  - format: tar.gz
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - LICENSE
+      - README.md
+
+# GitHub 릴리즈 설정
+release:
+  github:
+    owner: rookie0031
+    name: kubectl-ns-inspect
+    # GitHub 토큰 (액세스 권한 필요)
