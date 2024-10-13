@@ -96,6 +96,62 @@ func inspectNamespace(clientset *kubernetes.Clientset, namespace string) (bool, 
 	}
 	resourceCounts["Ingresses"] = len(ingresses.Items)
 
+    // Check for ServiceAccounts
+    serviceAccounts, err := clientset.CoreV1().ServiceAccounts(namespace).List(context.TODO(), metav1.ListOptions{})
+    if err != nil {
+        return false, resourceCounts, err
+    }
+    resourceCounts["ServiceAccounts"] = len(serviceAccounts.Items)
+
+    // Check for Roles
+    roles, err := clientset.RbacV1().Roles(namespace).List(context.TODO(), metav1.ListOptions{})
+    if err != nil {
+        return false, resourceCounts, err
+    }
+    resourceCounts["Roles"] = len(roles.Items)
+
+    // Check for RoleBindings
+    roleBindings, err := clientset.RbacV1().RoleBindings(namespace).List(context.TODO(), metav1.ListOptions{})
+    if err != nil {
+        return false, resourceCounts, err
+    }
+    resourceCounts["RoleBindings"] = len(roleBindings.Items)
+
+    // Check for NetworkPolicies
+    networkPolicies, err := clientset.NetworkingV1().NetworkPolicies(namespace).List(context.TODO(), metav1.ListOptions{})
+    if err != nil {
+        return false, resourceCounts, err
+    }
+    resourceCounts["NetworkPolicies"] = len(networkPolicies.Items)
+
+    // Check for ResourceQuotas
+    resourceQuotas, err := clientset.CoreV1().ResourceQuotas(namespace).List(context.TODO(), metav1.ListOptions{})
+    if err != nil {
+        return false, resourceCounts, err
+    }
+    resourceCounts["ResourceQuotas"] = len(resourceQuotas.Items)
+
+    // Check for LimitRanges
+    limitRanges, err := clientset.CoreV1().LimitRanges(namespace).List(context.TODO(), metav1.ListOptions{})
+    if err != nil {
+        return false, resourceCounts, err
+    }
+    resourceCounts["LimitRanges"] = len(limitRanges.Items)
+
+    // Check for HorizontalPodAutoscalers
+    hpas, err := clientset.AutoscalingV2().HorizontalPodAutoscalers(namespace).List(context.TODO(), metav1.ListOptions{})
+    if err != nil {
+        return false, resourceCounts, err
+    }
+    resourceCounts["HorizontalPodAutoscalers"] = len(hpas.Items)
+
+    // Check for PodDisruptionBudgets
+    pdbs, err := clientset.PolicyV1().PodDisruptionBudgets(namespace).List(context.TODO(), metav1.ListOptions{})
+    if err != nil {
+        return false, resourceCounts, err
+    }
+    resourceCounts["PodDisruptionBudgets"] = len(pdbs.Items)
+
 	// If no Pods and Services are found, the namespace is considered empty of primary resources
-	return resourceCounts["Pods"] == 0 && resourceCounts["Services"] == 0, resourceCounts, nil
+	return resourceCounts["Pods"] == 0 && resourceCounts["Services"] == 0 && resourceCounts["ConfigMap"] == 0, resourceCounts, nil
 }
