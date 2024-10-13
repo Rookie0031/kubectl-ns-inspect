@@ -1,0 +1,18 @@
+apiVersion: krew.googlecontainertools.github.com/v1alpha2
+kind: Plugin
+metadata:
+  name: ns-inspect
+spec:
+  version: "v1.1.0"
+  homepage: "https://github.com/Rookie0031/kubectl-ns-inspect"
+  shortDescription: "Inspect if a namespace has no resources and optionally delete it"
+  description: |
+    This plugin checks Kubernetes namespaces for resources and allows users to delete empty namespaces.
+  platforms:
+    - selector:
+        matchLabels:
+          os: darwin
+          arch: arm64
+      uri: "https://github.com/Rookie0031/kubectl-ns-inspect/releases/download/v1.1.0/kubectl-ns-inspect_1.1.0_darwin_arm64.tar.gz"
+      sha256: "092120ab8282b713c64390019cec191fbb5fb47ee23e70535806aa314a1a1f5b"
+      bin: "kubectl-ns-inspect"
