@@ -153,5 +153,5 @@ func inspectNamespace(clientset *kubernetes.Clientset, namespace string) (bool, 
     resourceCounts["PodDisruptionBudgets"] = len(pdbs.Items)
 
 	// If no Pods and Services are found, the namespace is considered empty of primary resources
-	return resourceCounts["Pods"] == 0 && resourceCounts["Services"] == 0 && resourceCounts["ConfigMap"] == 0, resourceCounts, nil
+	return resourceCounts["Pods"] == 0 && resourceCounts["Services"] == 0 && resourceCounts["ResourceQuotas"] == 0, resourceCounts, nil
 }
